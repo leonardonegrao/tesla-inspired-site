@@ -1,7 +1,8 @@
 import React, { useCallback, useRef, useState, useContext } from 'react';
 import ProductsContext, { ProductModel } from '../ProductsContext';
 
-import { Container } from './styles';
+import ProductOverlay from '../ProductOverlay'
+import { Container, OverlaysRoot } from './styles';
 
 const ProductWrapper: React.FC = ({ children }) => {
 
@@ -31,6 +32,16 @@ const ProductWrapper: React.FC = ({ children }) => {
             getProductByName,
         }}>
             <Container ref={wrapperRef}>
+                <OverlaysRoot>
+                    {
+                        registeredProducts.map(item => (
+                            <ProductOverlay key={item.productName} model={item}>
+                                { item.overlayNode }
+                            </ProductOverlay>
+                        ))
+                    }
+                </OverlaysRoot>
+                
                 { children }
             </Container>
         </ProductsContext.Provider>
